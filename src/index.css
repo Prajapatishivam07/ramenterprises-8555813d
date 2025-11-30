@@ -162,13 +162,20 @@
 
 /* Invoice specific styles */
 .invoice-container {
-  width: 210mm;
-  min-height: 297mm;
+  width: 100%;
+  max-width: 210mm;
+  min-height: auto;
   background: hsl(var(--invoice-bg));
   margin: 0 auto;
   box-shadow: 0 4px 20px -4px hsl(var(--foreground) / 0.1);
   display: flex;
   flex-direction: column;
+}
+
+@media (min-width: 210mm) {
+  .invoice-container {
+    min-height: 297mm;
+  }
 }
 
 .invoice-table {
