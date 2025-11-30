@@ -22,7 +22,7 @@ export function InvoiceControls({
 }: InvoiceControlsProps) {
   return (
     <div className="no-print bg-card border border-border rounded-xl p-4 mb-6 shadow-sm">
-      <div className="flex items-center justify-between gap-4">
+      <div className="flex flex-wrap items-center justify-between gap-4">
         <div className="flex items-center gap-2">
           <span className="text-sm font-medium text-muted-foreground">TSF Invoice Builder</span>
         </div>
