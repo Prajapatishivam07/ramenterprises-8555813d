@@ -1,19 +1,8 @@
-export type InvoiceMode = 'normal' | 'furniture';
-
-export interface NormalInvoiceRow {
-  id: string;
-  itemName: string;
-  hsn: string;
-  qty: number;
-  price: number;
-  gstPercent: number;
-  amount: number;
-}
-
 export interface FurnitureInvoiceRow {
   id: string;
   product: string;
-  size: string;
+  width: number;
+  height: number;
   tsf: number;
   rate: number;
   amount: number;
@@ -36,19 +25,17 @@ export interface ShopInfo {
 }
 
 export interface InvoiceData {
-  mode: InvoiceMode;
   invoiceNumber: string;
   date: string;
   placeOfSupply: string;
   customer: CustomerInfo;
   shop: ShopInfo;
-  normalRows: NormalInvoiceRow[];
-  furnitureRows: FurnitureInvoiceRow[];
+  rows: FurnitureInvoiceRow[];
   sgstPercent: number;
   cgstPercent: number;
   received: number;
   terms: string;
-  includeGstInFurniture: boolean;
+  includeGst: boolean;
 }
 
 export interface InvoiceSummary {
@@ -57,4 +44,12 @@ export interface InvoiceSummary {
   cgstAmount: number;
   grandTotal: number;
   balance: number;
+}
+
+export interface SavedBill {
+  id: string;
+  billNumber: number;
+  savedAt: string;
+  invoice: InvoiceData;
+  summary: InvoiceSummary;
 }

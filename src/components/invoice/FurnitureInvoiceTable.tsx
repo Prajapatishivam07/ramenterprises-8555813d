@@ -16,7 +16,7 @@ export function FurnitureInvoiceTable({ rows, onUpdateRow, onRemoveRow }: Furnit
           <tr>
             <th className="w-12 text-center">Sr</th>
             <th className="min-w-[200px]">Product</th>
-            <th className="w-32">Size (W×H ft)</th>
+            <th className="w-40">Size (W × H ft)</th>
             <th className="w-24 text-center">TSF</th>
             <th className="w-28 text-right">Rate/sq.ft</th>
             <th className="w-32 text-right">Amount</th>
@@ -37,13 +37,27 @@ export function FurnitureInvoiceTable({ rows, onUpdateRow, onRemoveRow }: Furnit
                 />
               </td>
               <td>
-                <input
-                  type="text"
-                  value={row.size}
-                  onChange={(e) => onUpdateRow(row.id, 'size', e.target.value)}
-                  className="invoice-input font-mono"
-                  placeholder="e.g., 4x6"
-                />
+                <div className="flex items-center gap-1">
+                  <input
+                    type="number"
+                    value={row.width || ''}
+                    onChange={(e) => onUpdateRow(row.id, 'width', parseFloat(e.target.value) || 0)}
+                    className="invoice-input text-center w-14 font-mono"
+                    placeholder="W"
+                    min="0"
+                    step="0.5"
+                  />
+                  <span className="text-muted-foreground font-bold text-lg">×</span>
+                  <input
+                    type="number"
+                    value={row.height || ''}
+                    onChange={(e) => onUpdateRow(row.id, 'height', parseFloat(e.target.value) || 0)}
+                    className="invoice-input text-center w-14 font-mono"
+                    placeholder="H"
+                    min="0"
+                    step="0.5"
+                  />
+                </div>
               </td>
               <td className="text-center font-semibold text-primary">
                 {row.tsf.toFixed(2)}

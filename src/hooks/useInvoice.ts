@@ -1,30 +1,22 @@
 import { useState, useEffect, useCallback } from 'react';
-import { InvoiceData, InvoiceSummary, NormalInvoiceRow, FurnitureInvoiceRow } from '@/types/invoice';
-import { generateInvoiceNumber, getCurrentDate, parseSize } from '@/lib/invoiceUtils';
+import { InvoiceData, InvoiceSummary, FurnitureInvoiceRow, SavedBill } from '@/types/invoice';
+import { generateInvoiceNumber, getCurrentDate } from '@/lib/invoiceUtils';
 
 const STORAGE_KEY = 'invoice_data';
+const BILLS_KEY = 'saved_bills';
+const BILL_COUNTER_KEY = 'bill_counter';
 
-const createEmptyNormalRow = (): NormalInvoiceRow => ({
-  id: crypto.randomUUID(),
-  itemName: '',
-  hsn: '',
-  qty: 0,
-  price: 0,
-  gstPercent: 18,
-  amount: 0,
-});
-
-const createEmptyFurnitureRow = (): FurnitureInvoiceRow => ({
+const createEmptyRow = (): FurnitureInvoiceRow => ({
   id: crypto.randomUUID(),
   product: '',
-  size: '',
+  width: 0,
+  height: 0,
   tsf: 0,
   rate: 0,
   amount: 0,
 });
 
 const defaultInvoiceData: InvoiceData = {
-  mode: 'normal',
   invoiceNumber: generateInvoiceNumber(),
   date: getCurrentDate(),
   placeOfSupply: 'Gujarat',
@@ -42,13 +34,12 @@ const defaultInvoiceData: InvoiceData = {
     gstin: '24XXXXX1234X1ZX',
     logo: '',
   },
-  normalRows: [createEmptyNormalRow()],
-  furnitureRows: [createEmptyFurnitureRow()],
+  rows: [createEmptyRow()],
   sgstPercent: 9,
   cgstPercent: 9,
   received: 0,
   terms: 'Goods once sold will not be taken back.\nPayment due within 30 days.',
-  includeGstInFurniture: false,
+  includeGst: false,
 };
 
 export function useInvoice() {
@@ -64,107 +55,67 @@ export function useInvoice() {
     return defaultInvoiceData;
   });
 
-  // Save to localStorage whenever invoice changes
+  const [savedBills, setSavedBills] = useState<SavedBill[]>(() => {
+    const saved = localStorage.getItem(BILLS_KEY);
+    if (saved) {
+      try {
+        return JSON.parse(saved);
+      } catch {
+        return [];
+      }
+    }
+    return [];
+  });
+
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(invoice));
   }, [invoice]);
 
-  // Calculate row amounts for normal mode
-  const calculateNormalRowAmount = useCallback((row: NormalInvoiceRow): number => {
-    const baseAmount = row.qty * row.price;
-    const gstAmount = (baseAmount * row.gstPercent) / 100;
-    return baseAmount + gstAmount;
-  }, []);
+  useEffect(() => {
+    localStorage.setItem(BILLS_KEY, JSON.stringify(savedBills));
+  }, [savedBills]);
 
-  // Calculate row amounts for furniture mode
-  const calculateFurnitureRowAmount = useCallback((row: FurnitureInvoiceRow): number => {
-    const { tsf } = parseSize(row.size);
-    return tsf * row.rate;
-  }, []);
-
-  // Update normal row
-  const updateNormalRow = useCallback((id: string, field: keyof NormalInvoiceRow, value: string | number) => {
+  const updateRow = useCallback((id: string, field: keyof FurnitureInvoiceRow, value: string | number) => {
     setInvoice(prev => ({
       ...prev,
-      normalRows: prev.normalRows.map(row => {
+      rows: prev.rows.map(row => {
         if (row.id !== id) return row;
         const updated = { ...row, [field]: value };
-        updated.amount = calculateNormalRowAmount(updated);
-        return updated;
-      }),
-    }));
-  }, [calculateNormalRowAmount]);
-
-  // Update furniture row
-  const updateFurnitureRow = useCallback((id: string, field: keyof FurnitureInvoiceRow, value: string | number) => {
-    setInvoice(prev => ({
-      ...prev,
-      furnitureRows: prev.furnitureRows.map(row => {
-        if (row.id !== id) return row;
-        const updated = { ...row, [field]: value };
-        if (field === 'size') {
-          updated.tsf = parseSize(value as string).tsf;
-        }
+        updated.tsf = updated.width * updated.height;
         updated.amount = updated.tsf * updated.rate;
         return updated;
       }),
     }));
   }, []);
 
-  // Add row
   const addRow = useCallback(() => {
     setInvoice(prev => ({
       ...prev,
-      normalRows: prev.mode === 'normal' ? [...prev.normalRows, createEmptyNormalRow()] : prev.normalRows,
-      furnitureRows: prev.mode === 'furniture' ? [...prev.furnitureRows, createEmptyFurnitureRow()] : prev.furnitureRows,
+      rows: [...prev.rows, createEmptyRow()],
     }));
   }, []);
 
-  // Remove row
   const removeRow = useCallback((id: string) => {
     setInvoice(prev => ({
       ...prev,
-      normalRows: prev.mode === 'normal' && prev.normalRows.length > 1
-        ? prev.normalRows.filter(row => row.id !== id)
-        : prev.normalRows,
-      furnitureRows: prev.mode === 'furniture' && prev.furnitureRows.length > 1
-        ? prev.furnitureRows.filter(row => row.id !== id)
-        : prev.furnitureRows,
+      rows: prev.rows.length > 1 ? prev.rows.filter(row => row.id !== id) : prev.rows,
     }));
   }, []);
 
-  // Calculate summary
   const calculateSummary = useCallback((): InvoiceSummary => {
-    let subtotal = 0;
-
-    if (invoice.mode === 'normal') {
-      subtotal = invoice.normalRows.reduce((sum, row) => {
-        return sum + (row.qty * row.price);
-      }, 0);
-    } else {
-      subtotal = invoice.furnitureRows.reduce((sum, row) => {
-        return sum + row.amount;
-      }, 0);
-    }
-
-    const sgstAmount = invoice.mode === 'furniture' && !invoice.includeGstInFurniture
-      ? 0
-      : (subtotal * invoice.sgstPercent) / 100;
-    const cgstAmount = invoice.mode === 'furniture' && !invoice.includeGstInFurniture
-      ? 0
-      : (subtotal * invoice.cgstPercent) / 100;
+    const subtotal = invoice.rows.reduce((sum, row) => sum + row.amount, 0);
+    const sgstAmount = invoice.includeGst ? (subtotal * invoice.sgstPercent) / 100 : 0;
+    const cgstAmount = invoice.includeGst ? (subtotal * invoice.cgstPercent) / 100 : 0;
     const grandTotal = subtotal + sgstAmount + cgstAmount;
     const balance = grandTotal - invoice.received;
 
     return { subtotal, sgstAmount, cgstAmount, grandTotal, balance };
   }, [invoice]);
 
-  // Update invoice field
   const updateField = useCallback(<K extends keyof InvoiceData>(field: K, value: InvoiceData[K]) => {
     setInvoice(prev => ({ ...prev, [field]: value }));
   }, []);
 
-  // Update customer field
   const updateCustomer = useCallback((field: keyof InvoiceData['customer'], value: string) => {
     setInvoice(prev => ({
       ...prev,
@@ -172,7 +123,6 @@ export function useInvoice() {
     }));
   }, []);
 
-  // Update shop field
   const updateShop = useCallback((field: keyof InvoiceData['shop'], value: string) => {
     setInvoice(prev => ({
       ...prev,
@@ -180,7 +130,35 @@ export function useInvoice() {
     }));
   }, []);
 
-  // Reset invoice
+  const getNextBillNumber = useCallback((): number => {
+    const counter = localStorage.getItem(BILL_COUNTER_KEY);
+    const nextNumber = counter ? parseInt(counter) + 1 : 1;
+    localStorage.setItem(BILL_COUNTER_KEY, nextNumber.toString());
+    return nextNumber;
+  }, []);
+
+  const saveBill = useCallback(() => {
+    const billNumber = getNextBillNumber();
+    const summary = calculateSummary();
+    const newBill: SavedBill = {
+      id: crypto.randomUUID(),
+      billNumber,
+      savedAt: new Date().toISOString(),
+      invoice: { ...invoice },
+      summary,
+    };
+    setSavedBills(prev => [newBill, ...prev]);
+    return billNumber;
+  }, [invoice, calculateSummary, getNextBillNumber]);
+
+  const loadBill = useCallback((bill: SavedBill) => {
+    setInvoice(bill.invoice);
+  }, []);
+
+  const deleteBill = useCallback((id: string) => {
+    setSavedBills(prev => prev.filter(bill => bill.id !== id));
+  }, []);
+
   const resetInvoice = useCallback(() => {
     const newInvoice = {
       ...defaultInvoiceData,
@@ -190,22 +168,28 @@ export function useInvoice() {
     setInvoice(newInvoice);
   }, []);
 
-  // Print invoice
   const printInvoice = useCallback(() => {
-    window.print();
-  }, []);
+    const billNumber = saveBill();
+    setTimeout(() => {
+      window.print();
+    }, 100);
+    return billNumber;
+  }, [saveBill]);
 
   return {
     invoice,
     summary: calculateSummary(),
+    savedBills,
     updateField,
     updateCustomer,
     updateShop,
-    updateNormalRow,
-    updateFurnitureRow,
+    updateRow,
     addRow,
     removeRow,
     resetInvoice,
     printInvoice,
+    saveBill,
+    loadBill,
+    deleteBill,
   };
 }
