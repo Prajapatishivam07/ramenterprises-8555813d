@@ -1,6 +1,6 @@
 import { SavedBill } from '@/types/invoice';
 import { formatCurrency } from '@/lib/invoiceUtils';
-import { downloadAllBillsAsZip, downloadSingleBillHtml } from '@/lib/pdfUtils';
+import { downloadAllBillsAsZip, downloadSingleBillPdf } from '@/lib/pdfUtils';
 import { X, Trash2, FileText, Download, Archive } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
@@ -26,8 +26,8 @@ export function BillHistory({ bills, onLoadBill, onDeleteBill, onClose }: BillHi
   const handleDownloadBill = async (bill: SavedBill, e: React.MouseEvent) => {
     e.stopPropagation();
     try {
-      await downloadSingleBillHtml(bill);
-      toast.success('Bill downloaded successfully');
+      await downloadSingleBillPdf(bill);
+      toast.success('Bill downloaded as PDF');
     } catch (error) {
       toast.error('Failed to download bill');
     }
