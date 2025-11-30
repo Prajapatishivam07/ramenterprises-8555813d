@@ -28,6 +28,7 @@ export interface InvoiceData {
   invoiceNumber: string;
   date: string;
   placeOfSupply: string;
+  billName: string;
   customer: CustomerInfo;
   shop: ShopInfo;
   rows: FurnitureInvoiceRow[];
@@ -49,6 +50,7 @@ export interface InvoiceSummary {
 export interface SavedBill {
   id: string;
   billNumber: number;
+  billName: string;
   savedAt: string;
   invoice: InvoiceData;
   summary: InvoiceSummary;

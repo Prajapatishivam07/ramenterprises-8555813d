@@ -49,18 +49,21 @@ const Index = () => {
           onReset={resetInvoice}
           onShowHistory={() => setShowHistory(true)}
           savedBillsCount={savedBills.length}
+          billName={invoice.billName}
+          onBillNameChange={(value) => updateField('billName', value)}
         />
       </div>
 
       <div className="invoice-container p-8 rounded-lg">
-        <InvoiceHeader
-          shop={invoice.shop}
-          invoiceNumber={invoice.invoiceNumber}
-          date={invoice.date}
-          placeOfSupply={invoice.placeOfSupply}
-          onShopChange={updateShop}
-          onFieldChange={updateField}
-        />
+        <div className="flex-1">
+          <InvoiceHeader
+            shop={invoice.shop}
+            invoiceNumber={invoice.invoiceNumber}
+            date={invoice.date}
+            placeOfSupply={invoice.placeOfSupply}
+            onShopChange={updateShop}
+            onFieldChange={updateField}
+          />
 
         <CustomerSection
           customer={invoice.customer}
@@ -73,17 +76,18 @@ const Index = () => {
           onRemoveRow={removeRow}
         />
 
-        <InvoiceSummary
-          summary={summary}
-          sgstPercent={invoice.sgstPercent}
-          cgstPercent={invoice.cgstPercent}
-          received={invoice.received}
-          includeGst={invoice.includeGst}
-          onSgstChange={(value) => updateField('sgstPercent', value)}
-          onCgstChange={(value) => updateField('cgstPercent', value)}
-          onReceivedChange={(value) => updateField('received', value)}
-          onToggleGst={(value) => updateField('includeGst', value)}
-        />
+          <InvoiceSummary
+            summary={summary}
+            sgstPercent={invoice.sgstPercent}
+            cgstPercent={invoice.cgstPercent}
+            received={invoice.received}
+            includeGst={invoice.includeGst}
+            onSgstChange={(value) => updateField('sgstPercent', value)}
+            onCgstChange={(value) => updateField('cgstPercent', value)}
+            onReceivedChange={(value) => updateField('received', value)}
+            onToggleGst={(value) => updateField('includeGst', value)}
+          />
+        </div>
 
         <InvoiceFooter
           terms={invoice.terms}

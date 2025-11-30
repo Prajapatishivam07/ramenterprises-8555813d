@@ -52,14 +52,17 @@ export function BillHistory({ bills, onLoadBill, onDeleteBill, onClose }: BillHi
                     <div className="flex-1 cursor-pointer" onClick={() => { onLoadBill(bill); onClose(); }}>
                       <div className="flex items-center gap-3 mb-2">
                         <span className="bg-primary text-primary-foreground text-sm font-bold px-3 py-1 rounded-full">
-                          Bill #{bill.billNumber}
+                          #{bill.billNumber}
+                        </span>
+                        <span className="font-medium text-foreground">
+                          {bill.billName || `Bill #${bill.billNumber}`}
                         </span>
                         <span className="text-sm text-muted-foreground">
                           {formatDate(bill.savedAt)}
                         </span>
                       </div>
                       <div className="text-sm space-y-1">
-                        <p className="font-medium">{bill.invoice.customer.name || 'No customer name'}</p>
+                        <p className="text-muted-foreground">{bill.invoice.customer.name || 'No customer name'}</p>
                         <p className="text-muted-foreground">
                           {bill.invoice.rows.length} item(s) • Total: {formatCurrency(bill.summary.grandTotal)}
                         </p>

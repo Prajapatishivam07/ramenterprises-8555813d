@@ -20,6 +20,7 @@ const defaultInvoiceData: InvoiceData = {
   invoiceNumber: generateInvoiceNumber(),
   date: getCurrentDate(),
   placeOfSupply: 'Gujarat',
+  billName: '',
   customer: {
     name: '',
     address: '',
@@ -161,6 +162,7 @@ export function useInvoice() {
     const newBill: SavedBill = {
       id: crypto.randomUUID(),
       billNumber,
+      billName: invoice.billName || `Bill #${billNumber}`,
       savedAt: new Date().toISOString(),
       invoice: { ...invoice },
       summary,

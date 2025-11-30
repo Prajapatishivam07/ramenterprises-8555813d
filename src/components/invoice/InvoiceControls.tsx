@@ -7,6 +7,8 @@ interface InvoiceControlsProps {
   onReset: () => void;
   onShowHistory: () => void;
   savedBillsCount: number;
+  billName: string;
+  onBillNameChange: (value: string) => void;
 }
 
 export function InvoiceControls({
@@ -15,6 +17,8 @@ export function InvoiceControls({
   onReset,
   onShowHistory,
   savedBillsCount,
+  billName,
+  onBillNameChange,
 }: InvoiceControlsProps) {
   return (
     <div className="no-print bg-card border border-border rounded-xl p-4 mb-6 shadow-sm">
@@ -24,6 +28,13 @@ export function InvoiceControls({
         </div>
 
         <div className="flex items-center gap-2">
+          <input
+            type="text"
+            value={billName}
+            onChange={(e) => onBillNameChange(e.target.value)}
+            placeholder="Bill name (optional)"
+            className="px-3 py-1.5 text-sm border border-input rounded-md bg-background w-40"
+          />
           <Button
             onClick={onShowHistory}
             variant="outline"
