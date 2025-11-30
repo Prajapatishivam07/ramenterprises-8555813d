@@ -1,4 +1,4 @@
-import { InvoiceData, InvoiceSummary as InvoiceSummaryType } from '@/types/invoice';
+import { InvoiceSummary as InvoiceSummaryType } from '@/types/invoice';
 import { formatCurrency, amountInWords } from '@/lib/invoiceUtils';
 
 interface InvoiceSummaryProps {
@@ -6,12 +6,11 @@ interface InvoiceSummaryProps {
   sgstPercent: number;
   cgstPercent: number;
   received: number;
-  mode: InvoiceData['mode'];
-  includeGstInFurniture: boolean;
+  includeGst: boolean;
   onSgstChange: (value: number) => void;
   onCgstChange: (value: number) => void;
   onReceivedChange: (value: number) => void;
-  onToggleGstInFurniture: (value: boolean) => void;
+  onToggleGst: (value: boolean) => void;
 }
 
 export function InvoiceSummary({
@@ -19,18 +18,14 @@ export function InvoiceSummary({
   sgstPercent,
   cgstPercent,
   received,
-  mode,
-  includeGstInFurniture,
+  includeGst,
   onSgstChange,
   onCgstChange,
   onReceivedChange,
-  onToggleGstInFurniture,
+  onToggleGst,
 }: InvoiceSummaryProps) {
-  const showGst = mode === 'normal' || includeGstInFurniture;
-
   return (
     <div className="flex justify-between gap-8 mb-6">
-      {/* Amount in Words */}
       <div className="flex-1">
         <div className="bg-secondary/50 rounded-lg p-4">
           <h4 className="text-sm font-medium text-muted-foreground mb-2">Amount in Words</h4>
@@ -39,20 +34,17 @@ export function InvoiceSummary({
           </p>
         </div>
         
-        {mode === 'furniture' && (
-          <label className="flex items-center gap-2 mt-4 cursor-pointer no-print">
-            <input
-              type="checkbox"
-              checked={includeGstInFurniture}
-              onChange={(e) => onToggleGstInFurniture(e.target.checked)}
-              className="w-4 h-4 rounded border-input text-primary focus:ring-primary"
-            />
-            <span className="text-sm text-muted-foreground">Include GST in Furniture Invoice</span>
-          </label>
-        )}
+        <label className="flex items-center gap-2 mt-4 cursor-pointer no-print">
+          <input
+            type="checkbox"
+            checked={includeGst}
+            onChange={(e) => onToggleGst(e.target.checked)}
+            className="w-4 h-4 rounded border-input text-primary focus:ring-primary"
+          />
+          <span className="text-sm text-muted-foreground">Include GST in Invoice</span>
+        </label>
       </div>
 
-      {/* Summary Table */}
       <div className="w-80">
         <div className="border border-invoice-border rounded-lg overflow-hidden">
           <table className="w-full text-sm">
@@ -64,7 +56,7 @@ export function InvoiceSummary({
                 </td>
               </tr>
               
-              {showGst && (
+              {includeGst && (
                 <>
                   <tr className="border-b border-invoice-border">
                     <td className="px-4 py-2 text-muted-foreground">

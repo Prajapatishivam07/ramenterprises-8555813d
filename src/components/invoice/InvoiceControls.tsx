@@ -1,56 +1,38 @@
-import { InvoiceMode } from '@/types/invoice';
-import { Plus, Printer, RotateCcw, FileText, Ruler } from 'lucide-react';
+import { Plus, Printer, RotateCcw, History } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 interface InvoiceControlsProps {
-  mode: InvoiceMode;
-  onModeChange: (mode: InvoiceMode) => void;
   onAddRow: () => void;
   onPrint: () => void;
   onReset: () => void;
+  onShowHistory: () => void;
+  savedBillsCount: number;
 }
 
 export function InvoiceControls({
-  mode,
-  onModeChange,
   onAddRow,
   onPrint,
   onReset,
+  onShowHistory,
+  savedBillsCount,
 }: InvoiceControlsProps) {
   return (
     <div className="no-print bg-card border border-border rounded-xl p-4 mb-6 shadow-sm">
       <div className="flex flex-wrap items-center justify-between gap-4">
-        {/* Mode Selector */}
         <div className="flex items-center gap-2">
-          <span className="text-sm font-medium text-muted-foreground">Invoice Type:</span>
-          <div className="flex rounded-lg border border-border overflow-hidden">
-            <button
-              onClick={() => onModeChange('normal')}
-              className={`flex items-center gap-2 px-4 py-2 text-sm font-medium transition-colors ${
-                mode === 'normal'
-                  ? 'bg-primary text-primary-foreground'
-                  : 'bg-background text-muted-foreground hover:bg-muted'
-              }`}
-            >
-              <FileText className="w-4 h-4" />
-              Normal (GST)
-            </button>
-            <button
-              onClick={() => onModeChange('furniture')}
-              className={`flex items-center gap-2 px-4 py-2 text-sm font-medium transition-colors ${
-                mode === 'furniture'
-                  ? 'bg-primary text-primary-foreground'
-                  : 'bg-background text-muted-foreground hover:bg-muted'
-              }`}
-            >
-              <Ruler className="w-4 h-4" />
-              Furniture (TSF)
-            </button>
-          </div>
+          <span className="text-sm font-medium text-muted-foreground">TSF Invoice Builder</span>
         </div>
 
-        {/* Action Buttons */}
         <div className="flex items-center gap-2">
+          <Button
+            onClick={onShowHistory}
+            variant="outline"
+            size="sm"
+            className="gap-2"
+          >
+            <History className="w-4 h-4" />
+            Bills ({savedBillsCount})
+          </Button>
           <Button
             onClick={onAddRow}
             variant="outline"
@@ -75,7 +57,7 @@ export function InvoiceControls({
             className="gap-2"
           >
             <Printer className="w-4 h-4" />
-            Print / PDF
+            Print / Save
           </Button>
         </div>
       </div>
