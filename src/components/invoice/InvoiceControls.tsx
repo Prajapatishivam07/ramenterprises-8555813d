@@ -1,9 +1,11 @@
-import { Plus, Printer, RotateCcw, History } from 'lucide-react';
+import { Plus, Printer, RotateCcw, History, Download, Share2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 interface InvoiceControlsProps {
   onAddRow: () => void;
   onPrint: () => void;
+  onSave: () => void;
+  onShare: () => void;
   onReset: () => void;
   onShowHistory: () => void;
   savedBillsCount: number;
@@ -14,6 +16,8 @@ interface InvoiceControlsProps {
 export function InvoiceControls({
   onAddRow,
   onPrint,
+  onSave,
+  onShare,
   onReset,
   onShowHistory,
   savedBillsCount,
@@ -27,7 +31,7 @@ export function InvoiceControls({
           <span className="text-sm font-medium text-muted-foreground">TSF Invoice Builder</span>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <input
             type="text"
             value={billName}
@@ -64,11 +68,29 @@ export function InvoiceControls({
           </Button>
           <Button
             onClick={onPrint}
+            variant="outline"
             size="sm"
             className="gap-2"
           >
             <Printer className="w-4 h-4" />
-            Print / Save
+            Print
+          </Button>
+          <Button
+            onClick={onSave}
+            size="sm"
+            className="gap-2"
+          >
+            <Download className="w-4 h-4" />
+            Save
+          </Button>
+          <Button
+            onClick={onShare}
+            variant="secondary"
+            size="sm"
+            className="gap-2"
+          >
+            <Share2 className="w-4 h-4" />
+            Share
           </Button>
         </div>
       </div>
