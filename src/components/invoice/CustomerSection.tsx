@@ -17,35 +17,35 @@ export function CustomerSection({ customer, onChange }: CustomerSectionProps) {
             type="text"
             value={customer.name}
             onChange={(e) => onChange('name', e.target.value)}
-            className="invoice-input text-lg font-semibold text-foreground mb-2"
+            className="invoice-input text-lg font-bold text-foreground mb-2"
             placeholder="Customer Name"
           />
           <textarea
             value={customer.address}
             onChange={(e) => onChange('address', e.target.value)}
-            className="invoice-input w-full resize-none text-sm"
+            className="invoice-input w-full resize-none text-sm font-semibold"
             placeholder="Customer Address"
             rows={2}
           />
         </div>
         <div className="space-y-2">
           <div className="flex items-center gap-2">
-            <span className="text-sm text-muted-foreground w-16">Phone:</span>
+            <span className="text-sm text-muted-foreground w-16 font-medium">Phone:</span>
             <input
               type="text"
               value={customer.phone}
               onChange={(e) => onChange('phone', e.target.value)}
-              className="invoice-input flex-1"
+              className="invoice-input flex-1 font-semibold"
               placeholder="+91 XXXXX XXXXX"
             />
           </div>
           <div className="flex items-center gap-2">
-            <span className="text-sm text-muted-foreground w-16">GSTIN:</span>
+            <span className="text-sm text-muted-foreground w-16 font-medium">GSTIN:</span>
             <input
               type="text"
               value={customer.gstin}
               onChange={(e) => onChange('gstin', e.target.value)}
-              className="invoice-input flex-1 font-mono"
+              className="invoice-input flex-1 font-mono font-semibold"
               placeholder="Customer GSTIN (if applicable)"
             />
           </div>

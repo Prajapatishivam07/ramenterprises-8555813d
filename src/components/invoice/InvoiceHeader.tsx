@@ -40,7 +40,7 @@ export function InvoiceHeader({
               type="text"
               value={shop.address}
               onChange={(e) => onShopChange('address', e.target.value)}
-              className="invoice-input w-full"
+              className="invoice-input w-full font-semibold"
               placeholder="Address"
             />
             <div className="flex gap-4">
@@ -48,14 +48,14 @@ export function InvoiceHeader({
                 type="text"
                 value={shop.phone}
                 onChange={(e) => onShopChange('phone', e.target.value)}
-                className="invoice-input w-40"
+                className="invoice-input w-40 font-semibold"
                 placeholder="Phone"
               />
               <input
                 type="email"
                 value={shop.email}
                 onChange={(e) => onShopChange('email', e.target.value)}
-                className="invoice-input w-48"
+                className="invoice-input w-48 font-semibold"
                 placeholder="Email"
               />
             </div>
@@ -65,7 +65,7 @@ export function InvoiceHeader({
                 type="text"
                 value={shop.gstin}
                 onChange={(e) => onShopChange('gstin', e.target.value)}
-                className="invoice-input w-48 font-mono"
+                className="invoice-input w-48 font-mono font-semibold"
                 placeholder="GSTIN Number"
               />
             </div>
