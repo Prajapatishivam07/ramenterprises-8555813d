@@ -32,7 +32,7 @@ export function FurnitureInvoiceTable({ rows, onUpdateRow, onRemoveRow }: Furnit
                   type="text"
                   value={row.product}
                   onChange={(e) => onUpdateRow(row.id, 'product', e.target.value)}
-                  className="invoice-input font-bold"
+                  className="invoice-input"
                   placeholder="Product name"
                 />
               </td>

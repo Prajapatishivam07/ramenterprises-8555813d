@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { useInvoice } from '@/hooks/useInvoice';
 import { InvoiceControls } from '@/components/invoice/InvoiceControls';
 import { InvoiceHeader } from '@/components/invoice/InvoiceHeader';
@@ -8,12 +8,9 @@ import { InvoiceSummary } from '@/components/invoice/InvoiceSummary';
 import { InvoiceFooter } from '@/components/invoice/InvoiceFooter';
 import { BillHistory } from '@/components/invoice/BillHistory';
 import { FileText } from 'lucide-react';
-import { downloadPdf, sharePdf } from '@/lib/pdfUtils';
-import { toast } from 'sonner';
 
 const Index = () => {
   const [showHistory, setShowHistory] = useState(false);
-  const invoiceRef = useRef<HTMLDivElement>(null);
   
   const {
     invoice,
@@ -26,38 +23,10 @@ const Index = () => {
     addRow,
     removeRow,
     resetInvoice,
-    saveBill,
+    printInvoice,
     loadBill,
     deleteBill,
   } = useInvoice();
-
-  const handlePrint = () => {
-    window.print();
-  };
-
-  const handleSave = async () => {
-    if (!invoiceRef.current) return;
-    try {
-      const billNumber = saveBill();
-      const fileName = invoice.billName || `Bill_${billNumber}`;
-      await downloadPdf(invoiceRef.current, fileName);
-      toast.success(`Bill #${billNumber} saved and downloaded`);
-    } catch (error) {
-      toast.error('Failed to save bill');
-    }
-  };
-
-  const handleShare = async () => {
-    if (!invoiceRef.current) return;
-    try {
-      const billNumber = saveBill();
-      const fileName = invoice.billName || `Bill_${billNumber}`;
-      await sharePdf(invoiceRef.current, fileName);
-      toast.success('Bill ready to share');
-    } catch (error) {
-      toast.error('Sharing not supported, bill downloaded instead');
-    }
-  };
 
   return (
     <div className="min-h-screen bg-background py-8 px-4">
@@ -76,9 +45,7 @@ const Index = () => {
       <div className="max-w-[210mm] mx-auto">
         <InvoiceControls
           onAddRow={addRow}
-          onPrint={handlePrint}
-          onSave={handleSave}
-          onShare={handleShare}
+          onPrint={printInvoice}
           onReset={resetInvoice}
           onShowHistory={() => setShowHistory(true)}
           savedBillsCount={savedBills.length}
@@ -87,7 +54,7 @@ const Index = () => {
         />
       </div>
 
-      <div ref={invoiceRef} className="invoice-container p-8 rounded-lg">
+      <div className="invoice-container p-8 rounded-lg">
         <div className="flex-1">
           <InvoiceHeader
             shop={invoice.shop}
@@ -98,16 +65,16 @@ const Index = () => {
             onFieldChange={updateField}
           />
 
-          <CustomerSection
-            customer={invoice.customer}
-            onChange={updateCustomer}
-          />
+        <CustomerSection
+          customer={invoice.customer}
+          onChange={updateCustomer}
+        />
 
-          <FurnitureInvoiceTable
-            rows={invoice.rows}
-            onUpdateRow={updateRow}
-            onRemoveRow={removeRow}
-          />
+        <FurnitureInvoiceTable
+          rows={invoice.rows}
+          onUpdateRow={updateRow}
+          onRemoveRow={removeRow}
+        />
 
           <InvoiceSummary
             summary={summary}
@@ -129,7 +96,7 @@ const Index = () => {
       </div>
 
       <div className="max-w-[210mm] mx-auto mt-6 text-center text-xs text-muted-foreground no-print">
-        <p>Data is automatically saved. Click "Save" to download as PDF.</p>
+        <p>Data is automatically saved. Click "Print / Save" to save bill and export.</p>
       </div>
 
       {showHistory && (
