@@ -47,7 +47,25 @@ export function useInvoice() {
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved) {
       try {
-        return JSON.parse(saved);
+        const parsed = JSON.parse(saved);
+        // Migrate old data format (furnitureRows -> rows)
+        if (parsed.furnitureRows && !parsed.rows) {
+          parsed.rows = parsed.furnitureRows.map((row: any) => ({
+            ...row,
+            width: row.width || 0,
+            height: row.height || 0,
+          }));
+          delete parsed.furnitureRows;
+          delete parsed.normalRows;
+          delete parsed.mode;
+          parsed.includeGst = parsed.includeGstInFurniture || false;
+          delete parsed.includeGstInFurniture;
+        }
+        // Ensure rows array exists
+        if (!parsed.rows || !Array.isArray(parsed.rows)) {
+          parsed.rows = [createEmptyRow()];
+        }
+        return { ...defaultInvoiceData, ...parsed };
       } catch {
         return defaultInvoiceData;
       }
