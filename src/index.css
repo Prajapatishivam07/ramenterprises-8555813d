@@ -108,9 +108,11 @@
     @apply border-border;
   }
 
-  body {
+  html, body {
     @apply bg-background text-foreground font-sans antialiased;
     font-family: 'Inter', system-ui, sans-serif;
+    overflow-x: hidden !important;
+    max-width: 100% !important;
   }
 }
 
@@ -162,25 +164,28 @@
 
 /* Invoice specific styles */
 .invoice-container {
-  width: 100%;
-  max-width: 210mm;
+  width: 100% !important;
+  max-width: 100% !important;
   min-height: auto;
   background: hsl(var(--invoice-bg));
   margin: 0 auto;
   box-shadow: 0 4px 20px -4px hsl(var(--foreground) / 0.1);
   display: flex;
   flex-direction: column;
+  overflow-x: hidden !important;
 }
 
 @media (min-width: 210mm) {
   .invoice-container {
+    max-width: 210mm;
     min-height: 297mm;
   }
 }
 
 .invoice-table {
-  width: 100%;
+  width: 100% !important;
   border-collapse: collapse;
+  table-layout: fixed !important;
 }
 
 .invoice-table th {
@@ -197,6 +202,8 @@
   border: 1px solid hsl(var(--invoice-border));
   padding: 10px 12px;
   text-align: left;
+  white-space: normal !important;
+  word-wrap: break-word !important;
 }
 
 .invoice-table tbody tr:nth-child(even) {
