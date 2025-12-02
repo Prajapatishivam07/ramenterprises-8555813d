@@ -6,7 +6,6 @@ interface InvoiceHeaderProps {
   shop: InvoiceData['shop'];
   invoiceNumber: string;
   date: string;
-  placeOfSupply: string;
   onShopChange: (field: keyof InvoiceData['shop'], value: string) => void;
   onFieldChange: <K extends keyof InvoiceData>(field: K, value: InvoiceData[K]) => void;
 }
@@ -51,7 +50,6 @@ export function InvoiceHeader({
   shop,
   invoiceNumber,
   date,
-  placeOfSupply,
   onShopChange,
   onFieldChange,
 }: InvoiceHeaderProps) {
@@ -93,6 +91,9 @@ export function InvoiceHeader({
     e.stopPropagation();
     onShopChange('logo', '');
   };
+
+  // Split phone numbers for display (if contains separator)
+  const phoneNumbers = shop.phone.split(/[\/,]/).map(p => p.trim()).filter(Boolean);
 
   return (
     <div className="border-b-2 border-invoice-border pb-6 mb-6">
@@ -147,37 +148,42 @@ export function InvoiceHeader({
             />
           </div>
           <div className="space-y-1 text-sm text-muted-foreground ml-0">
-            <input
-              type="text"
+            {/* Address - Full display */}
+            <textarea
               value={shop.address}
               onChange={(e) => onShopChange('address', e.target.value)}
-              className="invoice-input w-full font-semibold"
+              className="invoice-input w-full font-semibold resize-none"
               placeholder="Address"
+              rows={2}
             />
-            <div className="flex gap-4">
-              <input
-                type="text"
-                value={shop.phone}
-                onChange={(e) => onShopChange('phone', e.target.value)}
-                className="invoice-input w-40 font-semibold"
-                placeholder="Phone"
-              />
+            {/* Phone Numbers - Each on separate line */}
+            {phoneNumbers.map((phone, index) => (
+              <div key={index} className="flex items-center gap-2">
+                <span className="font-medium text-foreground text-xs">Phone:</span>
+                <span className="font-semibold">{phone}</span>
+              </div>
+            ))}
+            {phoneNumbers.length === 0 && (
+              <div className="flex items-center gap-2">
+                <span className="font-medium text-foreground text-xs">Phone:</span>
+                <input
+                  type="text"
+                  value={shop.phone}
+                  onChange={(e) => onShopChange('phone', e.target.value)}
+                  className="invoice-input w-48 font-semibold"
+                  placeholder="Phone Number"
+                />
+              </div>
+            )}
+            {/* Email */}
+            <div className="flex items-center gap-2">
+              <span className="font-medium text-foreground text-xs">Email:</span>
               <input
                 type="email"
                 value={shop.email}
                 onChange={(e) => onShopChange('email', e.target.value)}
                 className="invoice-input w-48 font-semibold"
-                placeholder="Email"
-              />
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="font-medium text-foreground">GSTIN:</span>
-              <input
-                type="text"
-                value={shop.gstin}
-                onChange={(e) => onShopChange('gstin', e.target.value)}
-                className="invoice-input w-48 font-mono font-semibold"
-                placeholder="GSTIN Number"
+                placeholder="Email Address"
               />
             </div>
           </div>
@@ -206,12 +212,13 @@ export function InvoiceHeader({
               />
             </div>
             <div className="flex items-center justify-end gap-2">
-              <span className="text-muted-foreground">Place of Supply:</span>
+              <span className="text-muted-foreground">GSTIN:</span>
               <input
                 type="text"
-                value={placeOfSupply}
-                onChange={(e) => onFieldChange('placeOfSupply', e.target.value)}
-                className="invoice-input w-36 text-right"
+                value={shop.gstin}
+                onChange={(e) => onShopChange('gstin', e.target.value)}
+                className="invoice-input w-40 text-right font-mono font-semibold"
+                placeholder="GSTIN Number"
               />
             </div>
           </div>

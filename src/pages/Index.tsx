@@ -56,14 +56,13 @@ const Index = () => {
 
       <div className="invoice-container p-8 rounded-lg">
         <div className="flex-1">
-          <InvoiceHeader
-            shop={invoice.shop}
-            invoiceNumber={invoice.invoiceNumber}
-            date={invoice.date}
-            placeOfSupply={invoice.placeOfSupply}
-            onShopChange={updateShop}
-            onFieldChange={updateField}
-          />
+        <InvoiceHeader
+          shop={invoice.shop}
+          invoiceNumber={invoice.invoiceNumber}
+          date={invoice.date}
+          onShopChange={updateShop}
+          onFieldChange={updateField}
+        />
 
         <CustomerSection
           customer={invoice.customer}
@@ -89,10 +88,7 @@ const Index = () => {
           />
         </div>
 
-        <InvoiceFooter
-          terms={invoice.terms}
-          onTermsChange={(value) => updateField('terms', value)}
-        />
+        <InvoiceFooter />
       </div>
 
       <div className="max-w-[210mm] mx-auto mt-6 text-center text-xs text-muted-foreground no-print">
