@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { InvoiceData, InvoiceSummary, FurnitureInvoiceRow, SavedBill } from '@/types/invoice';
 import { generateInvoiceNumber, getCurrentDate } from '@/lib/invoiceUtils';
+import ramEnterprisesLogo from '@/assets/ram-enterprises-logo.jpg';
 
 const STORAGE_KEY = 'invoice_data';
 const BILLS_KEY = 'saved_bills';
@@ -19,7 +20,7 @@ const createEmptyRow = (): FurnitureInvoiceRow => ({
 const defaultInvoiceData: InvoiceData = {
   invoiceNumber: generateInvoiceNumber(),
   date: getCurrentDate(),
-  placeOfSupply: 'Gujarat',
+  placeOfSupply: 'Maharashtra',
   billName: '',
   customer: {
     name: '',
@@ -28,12 +29,12 @@ const defaultInvoiceData: InvoiceData = {
     gstin: '',
   },
   shop: {
-    name: 'Your Business Name',
-    address: '123 Business Street, City - 380001',
-    phone: '+91 98765 43210',
-    email: 'info@business.com',
-    gstin: '24XXXXX1234X1ZX',
-    logo: '',
+    name: 'RAM ENTERPRISES',
+    address: '409 Ashtvinayak Residency, Golavali Fish Market, Dombivli (E), Maharashtra - 421203',
+    phone: '+91 98924 10038 / +91 93725 16061',
+    email: '',
+    gstin: '',
+    logo: ramEnterprisesLogo,
   },
   rows: [createEmptyRow()],
   sgstPercent: 9,
