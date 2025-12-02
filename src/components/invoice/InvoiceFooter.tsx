@@ -1,24 +1,15 @@
-interface InvoiceFooterProps {
-  terms: string;
-  onTermsChange: (value: string) => void;
-}
-
-export function InvoiceFooter({ terms, onTermsChange }: InvoiceFooterProps) {
+export function InvoiceFooter() {
   return (
     <div className="border-t-2 border-invoice-border pt-4 mt-auto invoice-footer">
       <div className="flex justify-between gap-6">
-        {/* Terms & Conditions */}
+        {/* Terms & Conditions - Fixed text */}
         <div className="flex-1">
           <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1">
             Terms & Conditions
           </h4>
-          <textarea
-            value={terms}
-            onChange={(e) => onTermsChange(e.target.value)}
-            className="invoice-input w-full text-xs text-muted-foreground resize-none"
-            rows={2}
-            placeholder="Enter terms and conditions..."
-          />
+          <p className="text-xs text-muted-foreground">
+            Thank you for doing business with us
+          </p>
         </div>
 
         {/* Signature */}
