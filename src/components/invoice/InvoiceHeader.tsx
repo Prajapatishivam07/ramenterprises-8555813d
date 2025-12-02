@@ -1,5 +1,6 @@
 import { InvoiceData } from '@/types/invoice';
-import { Building2 } from 'lucide-react';
+import { Building2, Upload, X } from 'lucide-react';
+import { useRef } from 'react';
 
 interface InvoiceHeaderProps {
   shop: InvoiceData['shop'];
@@ -10,6 +11,42 @@ interface InvoiceHeaderProps {
   onFieldChange: <K extends keyof InvoiceData>(field: K, value: InvoiceData[K]) => void;
 }
 
+const MAX_FILE_SIZE = 500 * 1024; // 500KB
+const MAX_DIMENSION = 200;
+
+const compressImage = (file: File): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        let { width, height } = img;
+        
+        if (width > MAX_DIMENSION || height > MAX_DIMENSION) {
+          if (width > height) {
+            height = (height / width) * MAX_DIMENSION;
+            width = MAX_DIMENSION;
+          } else {
+            width = (width / height) * MAX_DIMENSION;
+            height = MAX_DIMENSION;
+          }
+        }
+        
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx?.drawImage(img, 0, 0, width, height);
+        resolve(canvas.toDataURL('image/jpeg', 0.8));
+      };
+      img.onerror = reject;
+      img.src = e.target?.result as string;
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+};
+
 export function InvoiceHeader({
   shop,
   invoiceNumber,
@@ -18,15 +55,89 @@ export function InvoiceHeader({
   onShopChange,
   onFieldChange,
 }: InvoiceHeaderProps) {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleLogoClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      alert('Please select an image file');
+      return;
+    }
+
+    if (file.size > MAX_FILE_SIZE) {
+      alert('Image size should be less than 500KB');
+      return;
+    }
+
+    try {
+      const base64 = await compressImage(file);
+      onShopChange('logo', base64);
+    } catch (error) {
+      console.error('Error processing image:', error);
+      alert('Error processing image');
+    }
+    
+    // Reset input
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
+
+  const handleRemoveLogo = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    onShopChange('logo', '');
+  };
+
   return (
     <div className="border-b-2 border-invoice-border pb-6 mb-6">
       <div className="flex justify-between items-start">
         {/* Left: Shop Info */}
         <div className="flex-1">
           <div className="flex items-center gap-3 mb-3">
-            <div className="w-14 h-14 bg-primary rounded-lg flex items-center justify-center no-print">
-              <Building2 className="w-8 h-8 text-primary-foreground" />
+            {/* Logo Upload Area */}
+            <div 
+              className="relative w-14 h-14 rounded-lg overflow-hidden cursor-pointer group"
+              onClick={handleLogoClick}
+            >
+              {shop.logo ? (
+                <>
+                  <img 
+                    src={shop.logo} 
+                    alt="Business Logo" 
+                    className="w-full h-full object-contain bg-muted"
+                  />
+                  <button
+                    onClick={handleRemoveLogo}
+                    className="absolute -top-1 -right-1 w-5 h-5 bg-destructive text-destructive-foreground rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity no-print"
+                  >
+                    <X className="w-3 h-3" />
+                  </button>
+                  <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center no-print">
+                    <Upload className="w-5 h-5 text-white" />
+                  </div>
+                </>
+              ) : (
+                <div className="w-full h-full bg-primary flex items-center justify-center group-hover:bg-primary/80 transition-colors">
+                  <Building2 className="w-8 h-8 text-primary-foreground" />
+                  <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center no-print">
+                    <Upload className="w-5 h-5 text-white" />
+                  </div>
+                </div>
+              )}
             </div>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              onChange={handleFileChange}
+              className="hidden"
+            />
             <input
               type="text"
               value={shop.name}
