@@ -32,7 +32,7 @@ const defaultInvoiceData: InvoiceData = {
     name: 'RAM ENTERPRISES',
     address: '409 Ashtvinayak Residency, Golavali Fish Market,\nDombivli (E), Maharashtra - 421203',
     phone: '+91 98924 10038 / +91 93725 16061',
-    email: '',
+    email: 'ramfurniworks@gmail.com',
     gstin: '',
     logo: ramEnterprisesLogo,
   },
@@ -169,6 +169,11 @@ export function useInvoice() {
       summary,
     };
     setSavedBills(prev => [newBill, ...prev]);
+    // Generate new invoice number for next invoice
+    setInvoice(prev => ({
+      ...prev,
+      invoiceNumber: generateInvoiceNumber(),
+    }));
     return billNumber;
   }, [invoice, calculateSummary, getNextBillNumber]);
 
