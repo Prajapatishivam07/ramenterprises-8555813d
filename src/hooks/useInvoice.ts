@@ -30,7 +30,7 @@ const defaultInvoiceData: InvoiceData = {
   },
   shop: {
     name: 'RAM ENTERPRISES',
-    address: '409 Ashtvinayak Residency, Golavali Fish Market, Dombivli (E), Maharashtra - 421203',
+    address: '409 Ashtvinayak Residency, Golavali Fish Market,\nDombivli (E), Maharashtra - 421203',
     phone: '+91 98924 10038 / +91 93725 16061',
     email: '',
     gstin: '',

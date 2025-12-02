@@ -139,62 +139,38 @@ export function InvoiceHeader({
               onChange={handleFileChange}
               className="hidden"
             />
-            <input
-              type="text"
-              value={shop.name}
-              onChange={(e) => onShopChange('name', e.target.value)}
-              className="invoice-input text-2xl font-bold text-foreground print:text-xl"
-              placeholder="Business Name"
-            />
+            <span className="text-2xl font-bold text-foreground print:text-xl">
+              {shop.name}
+            </span>
           </div>
-          <div className="space-y-1 text-sm text-muted-foreground ml-0">
-            {/* Address - Full display */}
-            <textarea
-              value={shop.address}
-              onChange={(e) => onShopChange('address', e.target.value)}
-              className="invoice-input w-full font-semibold resize-none"
-              placeholder="Address"
-              rows={2}
-            />
+          <div className="space-y-1 text-sm text-foreground ml-0">
+            {/* Address - Full display with line break preserved */}
+            <div className="font-semibold whitespace-pre-line">
+              {shop.address}
+            </div>
             {/* Phone Numbers - Each on separate line */}
             {phoneNumbers.map((phone, index) => (
               <div key={index} className="flex items-center gap-2">
-                <span className="font-medium text-foreground text-xs">Phone:</span>
+                <span className="font-medium text-xs">Phone:</span>
                 <span className="font-semibold">{phone}</span>
               </div>
             ))}
-            {phoneNumbers.length === 0 && (
+            {/* Email */}
+            {shop.email && (
               <div className="flex items-center gap-2">
-                <span className="font-medium text-foreground text-xs">Phone:</span>
-                <input
-                  type="text"
-                  value={shop.phone}
-                  onChange={(e) => onShopChange('phone', e.target.value)}
-                  className="invoice-input w-48 font-semibold"
-                  placeholder="Phone Number"
-                />
+                <span className="font-medium text-xs">Email:</span>
+                <span className="font-semibold">{shop.email}</span>
               </div>
             )}
-            {/* Email */}
-            <div className="flex items-center gap-2">
-              <span className="font-medium text-foreground text-xs">Email:</span>
-              <input
-                type="email"
-                value={shop.email}
-                onChange={(e) => onShopChange('email', e.target.value)}
-                className="invoice-input w-48 font-semibold"
-                placeholder="Email Address"
-              />
-            </div>
           </div>
         </div>
 
         {/* Right: Invoice Details */}
         <div className="text-right space-y-2">
           <h1 className="text-3xl font-bold text-primary tracking-tight">TAX INVOICE</h1>
-          <div className="space-y-1 text-sm">
+          <div className="space-y-1 text-sm text-foreground">
             <div className="flex items-center justify-end gap-2">
-              <span className="text-muted-foreground">Invoice No:</span>
+              <span className="font-medium">Invoice No:</span>
               <input
                 type="text"
                 value={invoiceNumber}
@@ -203,7 +179,7 @@ export function InvoiceHeader({
               />
             </div>
             <div className="flex items-center justify-end gap-2">
-              <span className="text-muted-foreground">Date:</span>
+              <span className="font-medium">Date:</span>
               <input
                 type="date"
                 value={date}
@@ -212,7 +188,7 @@ export function InvoiceHeader({
               />
             </div>
             <div className="flex items-center justify-end gap-2">
-              <span className="text-muted-foreground">GSTIN:</span>
+              <span className="font-medium">GSTIN:</span>
               <input
                 type="text"
                 value={shop.gstin}
