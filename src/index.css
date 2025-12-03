@@ -163,7 +163,7 @@
 /* Invoice specific styles */
 .invoice-container {
   width: 100%;
-  max-width: 210mm;
+  max-width: 100%;
   min-height: auto;
   background: hsl(var(--invoice-bg));
   margin: 0 auto;
@@ -174,6 +174,7 @@
 
 @media (min-width: 800px) {
   .invoice-container {
+    max-width: 210mm;
     min-height: 297mm;
   }
 }

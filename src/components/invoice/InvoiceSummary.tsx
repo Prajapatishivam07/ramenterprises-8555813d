@@ -25,33 +25,33 @@ export function InvoiceSummary({
   onToggleGst,
 }: InvoiceSummaryProps) {
   return (
-    <div className="flex justify-between gap-6 mb-4 invoice-summary">
+    <div className="flex flex-col md:flex-row md:justify-between gap-4 md:gap-6 mb-4 invoice-summary">
       <div className="flex-1">
-        <div className="bg-secondary/50 rounded-lg p-3">
-          <h4 className="text-xs font-medium text-foreground mb-1">Amount in Words</h4>
-          <p className="text-sm font-medium text-foreground leading-snug">
+        <div className="bg-secondary/50 rounded-lg p-2 md:p-3">
+          <h4 className="text-[10px] md:text-xs font-medium text-foreground mb-1">Amount in Words</h4>
+          <p className="text-xs md:text-sm font-medium text-foreground leading-snug">
             {amountInWords(summary.grandTotal)}
           </p>
         </div>
         
-        <label className="flex items-center gap-2 mt-3 cursor-pointer no-print">
+        <label className="flex items-center gap-2 mt-2 md:mt-3 cursor-pointer no-print">
           <input
             type="checkbox"
             checked={includeGst}
             onChange={(e) => onToggleGst(e.target.checked)}
-            className="w-4 h-4 rounded border-input text-primary focus:ring-primary"
+            className="w-3 h-3 md:w-4 md:h-4 rounded border-input text-primary focus:ring-primary"
           />
-          <span className="text-sm text-muted-foreground">Include GST in Invoice</span>
+          <span className="text-xs md:text-sm text-muted-foreground">Include GST in Invoice</span>
         </label>
       </div>
 
-      <div className="w-72">
+      <div className="w-full md:w-72">
         <div className="border border-invoice-border rounded-lg overflow-hidden">
-          <table className="w-full text-sm">
+          <table className="w-full text-xs md:text-sm">
             <tbody>
               <tr className="border-b border-invoice-border">
-                <td className="px-3 py-1.5 text-muted-foreground">Sub Total</td>
-                <td className="px-3 py-1.5 text-right font-semibold">
+                <td className="px-2 md:px-3 py-1 md:py-1.5 text-muted-foreground">Sub Total</td>
+                <td className="px-2 md:px-3 py-1 md:py-1.5 text-right font-semibold">
                   {formatCurrency(summary.subtotal)}
                 </td>
               </tr>
@@ -59,36 +59,36 @@ export function InvoiceSummary({
               {includeGst && (
                 <>
                   <tr className="border-b border-invoice-border">
-                    <td className="px-3 py-1.5 text-muted-foreground">
+                    <td className="px-2 md:px-3 py-1 md:py-1.5 text-muted-foreground">
                       <span>SGST @</span>
                       <input
                         type="number"
                         value={sgstPercent}
                         onChange={(e) => onSgstChange(parseFloat(e.target.value) || 0)}
-                        className="w-10 mx-1 px-1 py-0.5 border border-input rounded text-center text-foreground bg-transparent text-xs"
+                        className="w-8 md:w-10 mx-1 px-1 py-0.5 border border-input rounded text-center text-foreground bg-transparent text-[10px] md:text-xs"
                         min="0"
                         max="50"
                       />
                       <span>%</span>
                     </td>
-                    <td className="px-3 py-1.5 text-right font-semibold">
+                    <td className="px-2 md:px-3 py-1 md:py-1.5 text-right font-semibold">
                       {formatCurrency(summary.sgstAmount)}
                     </td>
                   </tr>
                   <tr className="border-b border-invoice-border">
-                    <td className="px-3 py-1.5 text-muted-foreground">
+                    <td className="px-2 md:px-3 py-1 md:py-1.5 text-muted-foreground">
                       <span>CGST @</span>
                       <input
                         type="number"
                         value={cgstPercent}
                         onChange={(e) => onCgstChange(parseFloat(e.target.value) || 0)}
-                        className="w-10 mx-1 px-1 py-0.5 border border-input rounded text-center text-foreground bg-transparent text-xs"
+                        className="w-8 md:w-10 mx-1 px-1 py-0.5 border border-input rounded text-center text-foreground bg-transparent text-[10px] md:text-xs"
                         min="0"
                         max="50"
                       />
                       <span>%</span>
                     </td>
-                    <td className="px-3 py-1.5 text-right font-semibold">
+                    <td className="px-2 md:px-3 py-1 md:py-1.5 text-right font-semibold">
                       {formatCurrency(summary.cgstAmount)}
                     </td>
                   </tr>
@@ -96,20 +96,20 @@ export function InvoiceSummary({
               )}
               
               <tr className="border-b border-invoice-border bg-primary/5">
-                <td className="px-3 py-2 font-semibold text-foreground">Grand Total</td>
-                <td className="px-3 py-2 text-right font-bold text-primary">
+                <td className="px-2 md:px-3 py-1.5 md:py-2 font-semibold text-foreground">Grand Total</td>
+                <td className="px-2 md:px-3 py-1.5 md:py-2 text-right font-bold text-primary">
                   {formatCurrency(summary.grandTotal)}
                 </td>
               </tr>
               
               <tr className="border-b border-invoice-border">
-                <td className="px-3 py-1.5 text-muted-foreground">Received</td>
-                <td className="px-3 py-1.5 text-right">
+                <td className="px-2 md:px-3 py-1 md:py-1.5 text-muted-foreground">Received</td>
+                <td className="px-2 md:px-3 py-1 md:py-1.5 text-right">
                   <input
                     type="number"
                     value={received || ''}
                     onChange={(e) => onReceivedChange(parseFloat(e.target.value) || 0)}
-                    className="w-24 px-2 py-0.5 border border-input rounded text-right font-semibold text-invoice-success bg-transparent text-sm"
+                    className="w-20 md:w-24 px-2 py-0.5 border border-input rounded text-right font-semibold text-invoice-success bg-transparent text-xs md:text-sm"
                     placeholder="0.00"
                     min="0"
                   />
@@ -117,8 +117,8 @@ export function InvoiceSummary({
               </tr>
               
               <tr className="bg-destructive/5">
-                <td className="px-3 py-2 font-semibold text-foreground">Balance Due</td>
-                <td className="px-3 py-2 text-right font-bold text-destructive">
+                <td className="px-2 md:px-3 py-1.5 md:py-2 font-semibold text-foreground">Balance Due</td>
+                <td className="px-2 md:px-3 py-1.5 md:py-2 text-right font-bold text-destructive">
                   {formatCurrency(summary.balance)}
                 </td>
               </tr>
