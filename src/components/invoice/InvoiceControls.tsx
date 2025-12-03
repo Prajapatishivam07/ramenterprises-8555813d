@@ -21,53 +21,53 @@ export function InvoiceControls({
   onBillNameChange,
 }: InvoiceControlsProps) {
   return (
-    <div className="no-print bg-card border border-border rounded-xl p-4 mb-6 shadow-sm">
-      <div className="flex flex-wrap items-center justify-between gap-4">
+    <div className="no-print bg-card border border-border rounded-xl p-3 md:p-4 mb-4 md:mb-6 shadow-sm">
+      <div className="flex flex-col gap-3">
         <div className="flex items-center gap-2">
-          <span className="text-sm font-medium text-muted-foreground">TSF Invoice Builder</span>
+          <span className="text-xs md:text-sm font-medium text-muted-foreground">TSF Invoice Builder</span>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <input
             type="text"
             value={billName}
             onChange={(e) => onBillNameChange(e.target.value)}
             placeholder="Bill name (optional)"
-            className="px-3 py-1.5 text-sm border border-input rounded-md bg-background w-40"
+            className="px-2 md:px-3 py-1.5 text-xs md:text-sm border border-input rounded-md bg-background w-28 md:w-40 flex-shrink-0"
           />
           <Button
             onClick={onShowHistory}
             variant="outline"
             size="sm"
-            className="gap-2"
+            className="gap-1 md:gap-2 text-xs md:text-sm px-2 md:px-3"
           >
-            <History className="w-4 h-4" />
+            <History className="w-3 h-3 md:w-4 md:h-4" />
             Bills ({savedBillsCount})
           </Button>
           <Button
             onClick={onAddRow}
             variant="outline"
             size="sm"
-            className="gap-2"
+            className="gap-1 md:gap-2 text-xs md:text-sm px-2 md:px-3"
           >
-            <Plus className="w-4 h-4" />
+            <Plus className="w-3 h-3 md:w-4 md:h-4" />
             Add Row
           </Button>
           <Button
             onClick={onReset}
             variant="outline"
             size="sm"
-            className="gap-2"
+            className="gap-1 md:gap-2 text-xs md:text-sm px-2 md:px-3"
           >
-            <RotateCcw className="w-4 h-4" />
+            <RotateCcw className="w-3 h-3 md:w-4 md:h-4" />
             New Invoice
           </Button>
           <Button
             onClick={onPrint}
             size="sm"
-            className="gap-2"
+            className="gap-1 md:gap-2 text-xs md:text-sm px-2 md:px-3"
           >
-            <Printer className="w-4 h-4" />
+            <Printer className="w-3 h-3 md:w-4 md:h-4" />
             Print / Save
           </Button>
         </div>
