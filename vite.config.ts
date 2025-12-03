@@ -17,9 +17,9 @@ export default defineConfig(({ mode }) => ({
       registerType: "autoUpdate",
       includeAssets: ["favicon.ico", "robots.txt"],
       manifest: {
-        name: "Invoice Builder - Professional Tax Invoice Generator",
-        short_name: "Invoice Builder",
-        description: "Create professional A4 tax invoices with GST calculations, furniture TSF billing, and instant PDF export.",
+        name: "Ram Enterprises - Invoice",
+        short_name: "Ram Enterprises",
+        description: "Ram Enterprises - Professional furniture invoice generator with TSF calculations and GST billing.",
         theme_color: "#1a1a2e",
         background_color: "#1a1a2e",
         display: "standalone",

@@ -28,7 +28,7 @@ export function InvoiceSummary({
     <div className="flex justify-between gap-6 mb-4 invoice-summary">
       <div className="flex-1">
         <div className="bg-secondary/50 rounded-lg p-3">
-          <h4 className="text-xs font-medium text-muted-foreground mb-1">Amount in Words</h4>
+          <h4 className="text-xs font-medium text-foreground mb-1">Amount in Words</h4>
           <p className="text-sm font-medium text-foreground leading-snug">
             {amountInWords(summary.grandTotal)}
           </p>

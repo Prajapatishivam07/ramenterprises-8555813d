@@ -8,7 +8,7 @@ interface CustomerSectionProps {
 export function CustomerSection({ customer, onChange }: CustomerSectionProps) {
   return (
     <div className="bg-secondary/50 rounded-lg p-4 mb-6">
-      <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-3">
+      <h3 className="text-sm font-semibold text-foreground uppercase tracking-wider mb-3">
         Bill To
       </h3>
       <div className="grid grid-cols-2 gap-4">
@@ -30,7 +30,7 @@ export function CustomerSection({ customer, onChange }: CustomerSectionProps) {
         </div>
         <div className="space-y-2">
           <div className="flex items-center gap-2">
-            <span className="text-sm text-muted-foreground w-16 font-medium">Phone:</span>
+            <span className="text-sm text-foreground w-16 font-medium">Phone:</span>
             <input
               type="text"
               value={customer.phone}
@@ -40,7 +40,7 @@ export function CustomerSection({ customer, onChange }: CustomerSectionProps) {
             />
           </div>
           <div className="flex items-center gap-2">
-            <span className="text-sm text-muted-foreground w-16 font-medium">GSTIN:</span>
+            <span className="text-sm text-foreground w-16 font-medium">GSTIN:</span>
             <input
               type="text"
               value={customer.gstin}
