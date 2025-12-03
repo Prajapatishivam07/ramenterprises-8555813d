@@ -29,20 +29,20 @@ const Index = () => {
   } = useInvoice();
 
   return (
-    <div className="min-h-screen bg-background py-4 md:py-8 px-2 md:px-4">
-      <div className="w-full max-w-[210mm] mx-auto mb-4 md:mb-6 no-print">
+    <div className="min-h-screen bg-background py-8 px-4">
+      <div className="max-w-[210mm] mx-auto mb-6 no-print">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 md:w-10 md:h-10 bg-primary rounded-lg flex items-center justify-center flex-shrink-0">
-            <FileText className="w-4 h-4 md:w-5 md:h-5 text-primary-foreground" />
+          <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
+            <FileText className="w-5 h-5 text-primary-foreground" />
           </div>
-          <div className="min-w-0">
-            <h1 className="text-xl md:text-2xl font-bold text-foreground">Ram Enterprises</h1>
-            <p className="text-xs md:text-sm text-muted-foreground">Furniture Invoice with TSF Calculations</p>
+          <div>
+            <h1 className="text-2xl font-bold text-foreground">Ram Enterprises</h1>
+            <p className="text-sm text-muted-foreground">Furniture Invoice with TSF Calculations</p>
           </div>
         </div>
       </div>
 
-      <div className="w-full max-w-[210mm] mx-auto">
+      <div className="max-w-[210mm] mx-auto">
         <InvoiceControls
           onAddRow={addRow}
           onPrint={printInvoice}
@@ -54,7 +54,7 @@ const Index = () => {
         />
       </div>
 
-      <div className="invoice-container p-3 md:p-8 rounded-lg">
+      <div className="invoice-container p-8 rounded-lg">
         <div className="flex-1">
         <InvoiceHeader
           shop={invoice.shop}
@@ -91,7 +91,7 @@ const Index = () => {
         <InvoiceFooter />
       </div>
 
-      <div className="w-full max-w-[210mm] mx-auto mt-4 md:mt-6 text-center text-xs text-foreground no-print space-y-1 px-2">
+      <div className="max-w-[210mm] mx-auto mt-6 text-center text-xs text-foreground no-print space-y-1">
         <p>Data is automatically saved. Click "Print / Save" to save bill and export.</p>
         <p className="text-muted-foreground">Made by Shivam Prajapati</p>
         <p className="text-muted-foreground">© 2026 Shivam Prajapati</p>

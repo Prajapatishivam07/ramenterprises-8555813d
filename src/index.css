@@ -162,21 +162,13 @@
 
 /* Invoice specific styles */
 .invoice-container {
-  width: 100%;
-  max-width: 100%;
-  min-height: auto;
+  width: 210mm;
+  min-height: 297mm;
   background: hsl(var(--invoice-bg));
   margin: 0 auto;
   box-shadow: 0 4px 20px -4px hsl(var(--foreground) / 0.1);
   display: flex;
   flex-direction: column;
-}
-
-@media (min-width: 800px) {
-  .invoice-container {
-    max-width: 210mm;
-    min-height: 297mm;
-  }
 }
 
 .invoice-table {
@@ -196,7 +188,7 @@
 .invoice-table th,
 .invoice-table td {
   border: 1px solid hsl(var(--invoice-border));
-  padding: 6px 8px;
+  padding: 10px 12px;
   text-align: left;
 }
 
