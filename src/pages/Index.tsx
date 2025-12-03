@@ -36,8 +36,8 @@ const Index = () => {
             <FileText className="w-5 h-5 text-primary-foreground" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-foreground">TSF Invoice Builder</h1>
-            <p className="text-sm text-muted-foreground">Create furniture invoices with auto TSF calculations</p>
+            <h1 className="text-2xl font-bold text-foreground">Ram Enterprises</h1>
+            <p className="text-sm text-muted-foreground">Furniture Invoice with TSF Calculations</p>
           </div>
         </div>
       </div>
@@ -91,8 +91,10 @@ const Index = () => {
         <InvoiceFooter />
       </div>
 
-      <div className="max-w-[210mm] mx-auto mt-6 text-center text-xs text-muted-foreground no-print">
+      <div className="max-w-[210mm] mx-auto mt-6 text-center text-xs text-foreground no-print space-y-1">
         <p>Data is automatically saved. Click "Print / Save" to save bill and export.</p>
+        <p className="text-muted-foreground">Made by Shivam Prajapati</p>
+        <p className="text-muted-foreground">© 2026 Shivam Prajapati</p>
       </div>
 
       {showHistory && (
