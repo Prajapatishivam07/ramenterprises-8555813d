@@ -54,7 +54,7 @@ const Index = () => {
         />
       </div>
 
-      <div className="invoice-container p-3 md:p-8 rounded-lg overflow-x-auto">
+      <div className="invoice-container p-3 md:p-8 rounded-lg">
         <div className="flex-1">
         <InvoiceHeader
           shop={invoice.shop}
