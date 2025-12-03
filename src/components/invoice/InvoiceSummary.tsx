@@ -41,7 +41,7 @@ export function InvoiceSummary({
             onChange={(e) => onToggleGst(e.target.checked)}
             className="w-4 h-4 rounded border-input text-primary focus:ring-primary"
           />
-          <span className="text-sm text-muted-foreground">Include GST in Invoice</span>
+          <span className="text-sm text-foreground">Include GST in Invoice</span>
         </label>
       </div>
 
@@ -50,7 +50,7 @@ export function InvoiceSummary({
           <table className="w-full text-sm">
             <tbody>
               <tr className="border-b border-invoice-border">
-                <td className="px-3 py-1.5 text-muted-foreground">Sub Total</td>
+                <td className="px-3 py-1.5 text-foreground">Sub Total</td>
                 <td className="px-3 py-1.5 text-right font-semibold">
                   {formatCurrency(summary.subtotal)}
                 </td>
@@ -59,7 +59,7 @@ export function InvoiceSummary({
               {includeGst && (
                 <>
                   <tr className="border-b border-invoice-border">
-                    <td className="px-3 py-1.5 text-muted-foreground">
+                    <td className="px-3 py-1.5 text-foreground">
                       <span>SGST @</span>
                       <input
                         type="number"
@@ -76,7 +76,7 @@ export function InvoiceSummary({
                     </td>
                   </tr>
                   <tr className="border-b border-invoice-border">
-                    <td className="px-3 py-1.5 text-muted-foreground">
+                    <td className="px-3 py-1.5 text-foreground">
                       <span>CGST @</span>
                       <input
                         type="number"
@@ -103,7 +103,7 @@ export function InvoiceSummary({
               </tr>
               
               <tr className="border-b border-invoice-border">
-                <td className="px-3 py-1.5 text-muted-foreground">Received</td>
+                <td className="px-3 py-1.5 text-foreground">Received</td>
                 <td className="px-3 py-1.5 text-right">
                   <input
                     type="number"

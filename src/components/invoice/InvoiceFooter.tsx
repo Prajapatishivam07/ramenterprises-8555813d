@@ -4,10 +4,10 @@ export function InvoiceFooter() {
       <div className="flex justify-between gap-6">
         {/* Terms & Conditions - Fixed text */}
         <div className="flex-1">
-          <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1">
+          <h4 className="text-xs font-semibold text-foreground uppercase tracking-wider mb-1">
             Terms & Conditions
           </h4>
-          <p className="text-xs text-muted-foreground">
+          <p className="text-xs text-foreground">
             Thank you for doing business with us
           </p>
         </div>

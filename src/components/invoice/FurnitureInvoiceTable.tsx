@@ -26,7 +26,7 @@ export function FurnitureInvoiceTable({ rows, onUpdateRow, onRemoveRow }: Furnit
         <tbody>
           {rows.map((row, index) => (
             <tr key={row.id} className="animate-fade-in">
-              <td className="text-center font-medium text-muted-foreground">{index + 1}</td>
+              <td className="text-center font-medium text-foreground">{index + 1}</td>
               <td>
                 <input
                   type="text"
