@@ -30,21 +30,21 @@ export default defineConfig(({ mode }) => ({
         background_color: "#1a1a2e",
         display: "standalone",
         orientation: "portrait",
-        scope: "/",
-        start_url: "/",
+        scope: "/ramenterprises/",
+        start_url: "/ramenterprises/",
         icons: [
           {
-            src: "/pwa-192x192.png",
+            src: "/ramenterprises/pwa-192x192.png",
             sizes: "192x192",
             type: "image/png",
           },
           {
-            src: "/pwa-512x512.png",
+            src: "/ramenterprises/pwa-512x512.png",
             sizes: "512x512",
             type: "image/png",
           },
           {
-            src: "/pwa-512x512.png",
+            src: "/ramenterprises/pwa-512x512.png",
             sizes: "512x512",
             type: "image/png",
             purpose: "any maskable",
