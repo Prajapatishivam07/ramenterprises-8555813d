@@ -6,7 +6,6 @@ import { VitePWA } from "vite-plugin-pwa";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  base: "/ramenterprises/",
   server: {
     host: "::",
     port: 8080,
@@ -30,21 +29,21 @@ export default defineConfig(({ mode }) => ({
         background_color: "#1a1a2e",
         display: "standalone",
         orientation: "portrait",
-        scope: "/ramenterprises/",
-        start_url: "/ramenterprises/",
+        scope: "/",
+        start_url: "/",
         icons: [
           {
-            src: "/ramenterprises/pwa-192x192.png",
+            src: "/pwa-192x192.png",
             sizes: "192x192",
             type: "image/png",
           },
           {
-            src: "/ramenterprises/pwa-512x512.png",
+            src: "/pwa-512x512.png",
             sizes: "512x512",
             type: "image/png",
           },
           {
-            src: "/ramenterprises/pwa-512x512.png",
+            src: "/pwa-512x512.png",
             sizes: "512x512",
             type: "image/png",
             purpose: "any maskable",
