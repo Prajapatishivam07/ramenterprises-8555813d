@@ -7,8 +7,8 @@ import { FurnitureInvoiceTable } from '@/components/invoice/FurnitureInvoiceTabl
 import { InvoiceSummary } from '@/components/invoice/InvoiceSummary';
 import { InvoiceFooter } from '@/components/invoice/InvoiceFooter';
 import { BillHistory } from '@/components/invoice/BillHistory';
+import { NetworkStatus } from '@/components/NetworkStatus';
 import ramLogo from '@/assets/ram-enterprises-logo.jpg';
-
 const Index = () => {
   const [showHistory, setShowHistory] = useState(false);
   
@@ -30,6 +30,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background py-8 px-4">
+      <NetworkStatus />
       <div className="max-w-[210mm] mx-auto mb-6 no-print">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-lg overflow-hidden flex-shrink-0">
