@@ -18,7 +18,7 @@ export function FurnitureInvoiceTable({ rows, onUpdateRow, onRemoveRow }: Furnit
             <th className="min-w-[200px]">Product</th>
             <th className="w-40">Size (W × H ft)</th>
             <th className="w-24 text-center">TSF/Qty</th>
-            <th className="w-28 text-right">Rate</th>
+            <th className="w-28 text-right">Rate/Sq.ft</th>
             <th className="w-32 text-right">Amount</th>
             <th className="w-12 no-print"></th>
           </tr>
