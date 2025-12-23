@@ -73,8 +73,16 @@ export function FurnitureInvoiceTable({ rows, onUpdateRow, onRemoveRow }: Furnit
                   step="0.01"
                 />
               </td>
-              <td className="text-right font-semibold">
-                {formatCurrency(row.amount)}
+              <td>
+                <input
+                  type="number"
+                  value={row.amount || ''}
+                  onChange={(e) => onUpdateRow(row.id, 'amount', parseFloat(e.target.value) || 0)}
+                  className="invoice-input text-right font-semibold"
+                  placeholder="0.00"
+                  min="0"
+                  step="0.01"
+                />
               </td>
               <td className="no-print">
                 <button
