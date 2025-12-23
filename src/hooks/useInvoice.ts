@@ -101,17 +101,17 @@ export function useInvoice() {
       rows: prev.rows.map(row => {
         if (row.id !== id) return row;
         const updated = { ...row, [field]: value };
-        updated.tsf = updated.width * updated.height;
-        // Only auto-calculate amount if not directly editing amount field
-        if (field !== 'amount') {
-          // Auto-calculate if there's TSF and rate, otherwise keep manual amount
-          if (updated.tsf > 0 && updated.rate > 0) {
-            updated.amount = updated.tsf * updated.rate;
-          } else if (updated.tsf === 0 && updated.rate > 0 && field === 'rate') {
-            // If no size but rate entered, keep existing amount or set to rate
-            // This allows manual amount entry for products without size
-          }
+        
+        // Auto-calculate TSF from width × height only if editing width/height
+        if (field === 'width' || field === 'height') {
+          updated.tsf = updated.width * updated.height;
         }
+        
+        // Auto-calculate amount from TSF/Qty × Rate (unless directly editing amount)
+        if (field !== 'amount') {
+          updated.amount = updated.tsf * updated.rate;
+        }
+        
         return updated;
       }),
     }));

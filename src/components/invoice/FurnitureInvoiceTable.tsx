@@ -17,8 +17,8 @@ export function FurnitureInvoiceTable({ rows, onUpdateRow, onRemoveRow }: Furnit
             <th className="w-12 text-center">Sr</th>
             <th className="min-w-[200px]">Product</th>
             <th className="w-40">Size (W × H ft)</th>
-            <th className="w-24 text-center">TSF</th>
-            <th className="w-28 text-right">Rate/sq.ft</th>
+            <th className="w-24 text-center">TSF/Qty</th>
+            <th className="w-28 text-right">Rate</th>
             <th className="w-32 text-right">Amount</th>
             <th className="w-12 no-print"></th>
           </tr>
@@ -59,8 +59,16 @@ export function FurnitureInvoiceTable({ rows, onUpdateRow, onRemoveRow }: Furnit
                   />
                 </div>
               </td>
-              <td className="text-center font-semibold text-primary">
-                {row.tsf.toFixed(2)}
+              <td>
+                <input
+                  type="number"
+                  value={row.tsf || ''}
+                  onChange={(e) => onUpdateRow(row.id, 'tsf', parseFloat(e.target.value) || 0)}
+                  className="invoice-input text-center font-semibold text-primary"
+                  placeholder="0"
+                  min="0"
+                  step="0.01"
+                />
               </td>
               <td>
                 <input
